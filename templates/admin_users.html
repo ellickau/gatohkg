@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Users
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center">Admin Users Management</h2>
+    <form action="/admin_users" method="POST">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Select</th>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Address</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Authority</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        <input type="radio" name="selected_user" value="{{ user.user_id }}">
+                    </td>
+                    <td>{{ user.user_id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.mobile }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.authority }}</td>
+                    <td>{{ user.user_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+            <button type="submit" name="action" value="edit" class="btn btn-danger">Edit Selected User</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

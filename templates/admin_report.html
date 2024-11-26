@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Monthly Report
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center">Monthly Summary Report</h2>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Month</th>
+                    <th>Saved Items</th>
+                    <th>Cancelled Items</th>
+                    <th>Submitted Orders (Qty / Cost)</th>
+                    <th>In Preparation Orders (Qty / Cost)</th>
+                    <th>Delivered Orders (Qty / Cost)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for month in report_data.saved_orders %}
+                <tr>
+                    <td>{{ month.month }}</td>
+                    <td class="text-center">
+                        {{ (report_data.saved_orders | selectattr("month", "equalto", month.month) | list)[0].count if report_data.saved_orders | selectattr("month", "equalto", month.month) | list else 0 }}
+                    </td>
+                    <td class="text-center">
+                        {{ (report_data.cancelled_orders | selectattr("month", "equalto", month.month) | list)[0].count if report_data.cancelled_orders | selectattr("month", "equalto", month.month) | list else 0 }}
+                    </td>
+                    <td class="text-center">
+                        {% set submitted = report_data.submitted_orders | selectattr("month", "equalto", month.month) | list %}
+                        {{ submitted[0].total_qty if submitted else 0 }} /
+                        {{ submitted[0].total_costs | gbp if submitted else "£0.00" }}
+                    </td>
+                    <td class="text-center">
+                        {% set in_preparation = report_data.in_preparation_orders | selectattr("month", "equalto", month.month) | list %}
+                        {{ in_preparation[0].total_qty if in_preparation else 0 }} /
+                        {{ in_preparation[0].total_costs | gbp if in_preparation else "£0.00" }}
+                    </td>
+                    <td class="text-center">
+                        {% set delivered = report_data.delivered_orders | selectattr("month", "equalto", month.month) | list %}
+                        {{ delivered[0].total_qty if delivered else 0 }} /
+                        {{ delivered[0].total_costs | gbp if delivered else "£0.00" }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

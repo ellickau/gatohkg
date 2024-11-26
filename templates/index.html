@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+
+
+    <main class="my-5">
+        <div class="container-lg">
+            <div class="row">
+                <div class="col-md-5">
+                    <img src="{{ url_for('static', filename='img/gato-intro.jpg') }}" alt="gato-intro" class="img-fluid" title="GatoHKG Shop">
+                </div>
+    
+                <div class="col-md-7">
+                    <h2 class="mt-3 gato-text">About GatoHKG</h2>
+                    <img src="{{ url_for('static', filename='img/gatohkg-logo.png') }}" alt="logo-intro" class="gato-logo">
+                    <p class="mt-4">
+                        Founded in Manchester in 2024 by a HK family who immigrated to the UK in 2022. GatoHKG is a icon of Hong
+                        Kong-style cakes, and Pastries delights, and authentic Asian cuisine. Rooted in a passion for food and 
+                        inspired by the rich culinary traditions of Hong Kong, our family started this journey to share the 
+                        vibrant flavors we grew up enjoying with the people of the UK.
+                    <P>
+                        At GatoHKG, we bring the warmth and nostalgia of home-cooked meals and freshly baked goods,
+                        offering a unique fusion of traditional recipes and a modern twist. From buttery pineapple 
+                        buns to delicate egg tarts, and hearty Asian comfort dishes, we aim to introduce and delight 
+                        our customers with the taste of Asia.
+                    </P>
+                        Our mission is simple: to bring people together through food, bridging cultures and creating
+                        memories that linger long after the last bite. Come and taste the heart of Asia right here in 
+                        the UK, where every dish tells a story of tradition, family, and love !
+                    </p>
+                </div>
+            </div>
+
+            <div class="row my-4">
+                <div class="col">
+                    <div class="bg-secondary text-white my-3 py-3 card text-center">
+                        <div class="card-body">
+                            We hold a boot Sales at Stretford Mall, M32 9BD on every first Saturdy, 11am - 4pm
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="container-lg">
+                    <div class="card-group">
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='img/scone-001.jpg') }}" class="card-img-top" alt="scones" height="330px">
+                            <div class="card-body">
+                                <h5 class="card-title">Scones</h5>
+                                <p class="card-text">GataHKG's scones bring a classic British treat to your
+                                    table—golden-brown, flaky, and buttery.
+                                    Perfect for afternoon tea or breakfast, they feature a crisp exterior with tender,
+                                    fluffy layers inside. Served warm
+                                    with clotted cream and jam, each bite is a comforting, satisfying delight.</p>
+                                    <div class="button-container">
+                                        <a href="/order">
+                                            <button type="button" class="btn btn-secondary">Order</button>
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='img/muffin-001.jpg') }}" class="card-img-top" alt="muffins" height="330px">
+                            <div class="card-body">
+                                <h5 class="card-title">Muffins</h5>
+                                <p class="card-text">Soft, fluffy, and bursting with unique flavors inspired by Asian
+                                    cuisine. Perfect for any time of
+                                    the day, our muffins are a blend of tradition and creativity, crafted to bring a taste
+                                    of home to the UK. Taste the
+                                    difference in every bite!</p>
+                                    <div class="button-container">
+                                        <a href="/order">
+                                            <button type="button" class="btn btn-secondary">Order</button>
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='img/swiss-roll-001.jpg') }}" class="card-img-top" alt="swiss-roll" height="330px">
+                            <div class="card-body">
+                                <h5 class="card-title">Swiss Rolls</h5>
+                                <p class="card-text">Swiss rolls are a Hong Kong bakery favorite—light, fluffy, and mildly
+                                    sweet. Featuring a spiral of
+                                    airy sponge cake and creamy filling, each bite melts in your mouth. Made with rich
+                                    ingredients like butter and
+                                    condensed milk, they pair perfectly with tea or coffee for a delightful treat.</p>
+                                    <div class="button-container">
+                                        <a href="/order">
+                                            <button type="button" class="btn btn-secondary">Order</button>
+                                        </a>
+                                    </div>
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <br>
+    
+            <div class="row">
+                <div class="container-lg">
+                    <div class="card-group">
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='img/egg-tart-003.jpg') }}" class="card-img-top" alt="egg-tart" height="330px">
+                            <div class="card-body">
+                                <h5 class="card-title">Egg Tarts</h5>
+                                <p class="card-text">The Hong Kong-style egg tart is a beloved pastry that features a smooth, creamy custard center
+                                    nestled in a flaky or crumbly pastry shell. Drawing inspiration from Portuguese and British influences, this treat
+                                    became a local staple, often found in bakeries, cha chaan tengs, and dim sum restaurants. Its delicate balance of
+                                    sweetness and buttery richness makes it a quintessential part of Hong Kong’s culinary identity. </p>
+                                    <div class="button-container">
+                                        <a href="/order">
+                                            <button type="button" class="btn btn-secondary">Order</button>
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='img/turnip-cake-001.jpg') }}" class="card-img-top" alt="turnip-cake" height="330px">
+                            <div class="card-body">
+                                <h5 class="card-title">Turnip Cakes</h5>
+                                <p class="card-text">Turnip cake, or "lo bak go," is a savory dim sum favorite made from shredded daikon radish, rice
+                                    flour, and a mix of ingredients like dried shrimp, Chinese sausage, and mushrooms. Often served in rectangular slices, it’s a
+                                    comforting dish that showcases the umami-packed simplicity of traditional Cantonese cuisine. Commonly enjoyed during
+                                    dim sum meals or festive occasions like Chinese New Year, it’s a must-try for those exploring Hong Kong's culinary
+                                    traditions.</p>
+                                    <div class="button-container">
+                                        <a href="/order">
+                                            <button type="button" class="btn btn-secondary">Order</button>
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='img/rice-pudding-001.jpg') }}" class="card-img-top" alt="rice-pudding" height="330px">
+                            <div class="card-body">
+                                <h5 class="card-title">Red Bean Pudding Cakes</h5>
+                                <p class="card-text">Red bean pudding, known locally as "put chai ko," is a classic Hong Kong street snack that offers a
+                                    nostalgic taste of childhood for many locals. Made from glutinous rice flour, sugar, and red beans, the pudding is
+                                    steamed in small bowls or aluminum cups until firm and springy. The subtly sweet and chewy texture, paired with the
+                                    earthy flavor of red beans, makes this treat
+                                    a simple yet satisfying dessert that remains a favorite across generations.</p>
+                                    <div class="button-container">
+                                        <a href="/order">
+                                            <button type="button" class="btn btn-secondary">Order</button>
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+    {% endblock %}
+   

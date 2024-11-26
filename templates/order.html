@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Order
+{% endblock %}
+
+{% block main %}
+<div class="container mt-2">
+    <h2 class="text-center">Order</h2>
+    <form action="/order" method="post">
+        <table class="table table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Select</th>
+                    <th>Product Code</th>
+                    <th>Picture</th>
+                    <th>Product Name</th>
+                    <th>Unit Price (£)</th>
+                    <th>Order Quantity</th>
+                    <th>Item Total (£)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    {% if product.pd_code != "transport-001" and product.pd_status == "active" %}
+                    <td>
+                        <input type="checkbox" id="select-{{ product.pd_code }}" name="selected_products" value="{{ product.pd_code }}"
+                               onclick="toggleQuantity('{{ product.pd_code }}')">
+                    </td>
+                            <td>{{ product.pd_code }}</td>
+                            <td>
+                                <img src="{{ url_for('static', filename=product.pd_picture) }}" alt="{{ product.pd_name }}" style="width: 120px;">
+                            </td>
+                            <td>{{ product.pd_name }}</td>
+                            <td>{{ product.pd_price | gbp }}</td>
+                            <td>
+                                <input type="number" id="qty-{{ product.pd_code }}" name="qty_{{ product.pd_code }}" value="0"
+                                    class="form-control text-center" min="0" onchange="updateCosts()" disabled>
+                            </td>
+                            <td>
+                                <span id="line-total-{{ product.pd_code }}">0.00</span>
+                            </td>
+                    
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Cost Breakdown -->
+        <div class="row mt-3">
+            <!-- Left Column: Remarks -->
+            <div class="col-md-6">
+                <h4>Remarks</h4>
+                <ul class="list-unstyled">
+                    <li>✔ Minimum order cost is £10.</li>
+                    <li>✔ Orders between £10 and £30 have a delivery charge of £5. (within Manchester Area)</li>
+                    <li>✔ Orders above £30 include free delivery.</li>
+                </ul>
+            </div>
+        
+            <!-- Right Column: Order Summary -->
+            <div class="col-md-6 text-end">
+                <h4>Order Summary</h4>
+                <p>Subtotal: £<span id="subtotal">0.00</span></p>
+                <p>Delivery Charge: £<span id="delivery-charge">0.00</span></p>
+                <h3>Total: £<span id="total-cost">0.00</span></h3>
+            </div>
+        </div>
+
+        <div class="text-end mt-3">
+            <button type="submit" name="action" value="save" class="btn btn-secondary">Save</button>
+            <button type="submit" name="action" value="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Toggle quantity input based on checkbox selection
+    function toggleQuantity(code) {
+        const checkbox = document.getElementById(`select-${code}`);
+        const quantityInput = document.getElementById(`qty-${code}`);
+        quantityInput.disabled = !checkbox.checked;
+        if (!checkbox.checked) {
+            quantityInput.value = 0;
+            updateCosts();
+        }
+    }
+
+    // Update costs dynamically
+    function updateCosts() {
+        let subtotal = 0;
+        const products = JSON.parse('{{ products|tojson | safe }}'); // Parse products from the server
+        
+        products.forEach(product => {
+            const quantityInput = document.getElementById(`qty-${product.pd_code}`);
+            if (quantityInput && !quantityInput.disabled) {
+                const qty = parseFloat(quantityInput.value) || 0;
+                const lineTotal = qty * product.pd_price;
+                document.getElementById(`line-total-${product.pd_code}`).innerText = lineTotal.toFixed(2);
+                subtotal += lineTotal;
+            }
+        });
+
+        // Calculate delivery charge
+        let deliveryCharge = 0;
+        if (subtotal >= 10 && subtotal < 30) {
+            deliveryCharge = 5;
+        }
+
+        // Update the totals
+        document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+        document.getElementById("delivery-charge").innerText = deliveryCharge.toFixed(2);
+        document.getElementById("total-cost").innerText = (subtotal + deliveryCharge).toFixed(2);
+    }
+
+    // Event listener to trigger updateCosts when the page loads
+    document.addEventListener("DOMContentLoaded", () => {
+        const products = JSON.parse('{{ products|tojson | safe }}');
+        products.forEach(product => {
+            const quantityInput = document.getElementById(`qty-${product.pd_code}`);
+            if (quantityInput) {
+                quantityInput.addEventListener("input", updateCosts);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

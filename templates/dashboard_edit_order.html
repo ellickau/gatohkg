@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Order: {{ order.order_number }}
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <!-- Highlight Row -->
+    <div class="alert alert-success text-center">
+        <strong>Current Status:</strong> {{ order.order_status | capitalize }} &mdash;
+        <strong>Payment Status:</strong> {{ order.payment_status | capitalize }}
+    </div>
+
+    <h2 class="text-center">Edit Order: {{ order.order_number }}</h2>
+
+    <form action="/dashboard/edit_order/{{ order.order_number }}" method="POST">
+        <h4>Delivery Details</h4>
+        <div class="mb-3">
+            <label for="delivery_address" class="form-label">Delivery Address</label>
+            <textarea id="delivery_address" name="delivery_address" class="form-control">{{ order.delivery_address }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="delivery_mobile" class="form-label">Mobile</label>
+            <input type="text" id="delivery_mobile" name="delivery_mobile" class="form-control" value="{{ order.delivery_mobile }}">
+        </div>
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" id="full_name" name="full_name" class="form-control" value="{{ order.full_name }}">
+        </div>
+        <div class="mb-3">
+            <label for="payment_status" class="form-label">Payment Status</label>
+            <select id="payment_status" name="payment_status" class="form-control">
+                <option value="pending" {% if order.payment_status == "pending" %}selected{% endif %}>Pending</option>
+                <option value="paid" {% if order.payment_status == "paid" %}selected{% endif %}>Paid</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="next_order_status" class="form-label">Next Order Status</label>
+            <input type="text" id="next_order_status" class="form-control" 
+                   value="{% if order.order_status == 'submitted' %}In Preparation{% elif order.order_status == 'in preparation' %}Delivered{% endif %}" 
+                   disabled>
+        </div>
+      
+        <hr>
+
+        <h4>Order Items</h4>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost (£)</th>
+                    <th>Order Cost (£)</th>
+                    <th>Payment</th>
+                    <th>Order Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if order.order_items %}
+                {% for item in order.order_items %}
+                <tr>
+                    <td>{{ item.pd_code }}</td>
+                    <td>{{ item.pd_name }}</td>
+                    <td>{{ item.order_quantity }}</td>
+                    <td>{{ item.pd_price | gbp }}</td>
+                    <td>{{ item.order_costs | gbp }}</td>
+                    <td>{{ item.order_payment }}</td>
+                    <td>{{ item.order_status }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="3">No items found for this order.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        
+        <br>
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="/dashboard" class="btn btn-secondary">Back</a>
+    
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5 register-format">
+    <h2>Register</h2>
+
+    <form action="/register" method="post" class="register-format">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input id="username" name="username" type="text" class="form-control" placeholder="joelee" 
+                   value="{{ request.form.username or '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" name="password" type="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirmation" class="form-label">Confirm Password</label>
+            <input id="confirmation" name="confirmation" type="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input id="full_name" name="full_name" type="text" class="form-control" placeholder="Joe Lee" 
+                   value="{{ request.form.full_name or '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">UK Address</label>
+            <input id="address" name="address" type="text" class="form-control" placeholder="11 Manchester Road, M2 7FR"
+                   value="{{ request.form.address or '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile (UK only)</label>
+            <input id="mobile" name="mobile" type="text" class="form-control" placeholder="07xxxxxxxxx"
+                   value="{{ request.form.mobile or '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="email" class="form-control" placeholder="joelee@easy.com"
+                   value="{{ request.form.email or '' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+{% endblock %}

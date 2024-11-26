@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    View Delivered Order
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center">Delivered Order Details : {{ order.order_number }} for {{ order.full_name | title }}</h2>
+
+    <!-- Order Summary -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Order Summary</h4>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="order-number" class="form-label"><strong>Order Number:</strong></label>
+                        <input type="text" id="order-number" class="form-control" value="{{ order.order_number }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="user-name" class="form-label"><strong>Full Name:</strong></label>
+                        <input type="text" id="user-name" class="form-control" value="{{ order.full_name }}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="delivery-address" class="form-label"><strong>Delivery Address:</strong></label>
+                        <input type="text" id="delivery-address" class="form-control" value="{{ order.delivery_address }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="delivery-mobile" class="form-label"><strong>Mobile:</strong></label>
+                        <input type="text" id="delivery-mobile" class="form-control" value="{{ order.delivery_mobile }}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label"><strong>Email:</strong></label>
+                        <input type="text" id="email" class="form-control" value="{{ order.email }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="payment-status" class="form-label"><strong>Payment Status:</strong></label>
+                        <input type="text" id="payment-status" class="form-control" value="{{ order.order_payment }}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="order-status" class="form-label"><strong>Order Status:</strong></label>
+                        <input type="text" id="order-status" class="form-control" value="{{ order.order_status }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="delivered_at" class="form-label"><strong>Last Update Date / Time: </strong></label>
+                        <input type="text" id="updated_at" class="form-control" value="{{ order.updated_at }}" readonly>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ordered Items -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Ordered Items</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_items %}
+                    <tr class="text-center">
+                        <td>{{ item.pd_code }}</td>
+                        <td>{{ item.pd_name or 'Delivery Charge' }}</td>
+                        <td>{{ item.pd_price | gbp if item.pd_price else 'N/A' }}</td>
+                        <td>{{ item.order_quantity }}</td>
+                        <td>{{ (item.pd_price * item.order_quantity) | gbp if item.pd_price else item.order_quantity | gbp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Total Summary -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5><strong>Total Quantity:</strong> {{ total_qty }}</h5>
+        </div>
+        <div class="col-md-6 text-end">
+            <h5><strong>Total Cost:</strong> {{ total_costs | gbp }}</h5>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Back Button -->
+<div class="text-center mt-4">
+    <a href="/dashboard" class="btn btn-primary">Back</a>
+</div>
+
+{% endblock %}

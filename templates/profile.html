@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+
+<div class="container mt-4 profile-format">
+    <h2>{{ user.full_name }}'s Profile</h2>
+    <form action="/profile" method="post">
+        <!-- Username (Disabled) -->
+        <div class="mb-3">
+            <label for="user_id" class="form-label">User ID (read only)</label>
+            <input type="integer" class="form-control" id="user_id" name="user_id" value="{{ user.user_id }}" readonly
+                style="background-color: papayawhip; color: black;">
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username (read only)</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" readonly
+                style="background-color: papayawhip; color: black;">
+        </div>
+
+        {% if session.get('authority') == 'admin'  %}
+        <!-- Authority -->
+        <div class="mb-3">
+            <label for="authority" class="form-label">Authority (for Admin only) </label>
+            <input type="text" class="form-control" id="authority" name="authority" value="{{ user.authority }}" readonly 
+                style="background-color: papayawhip; color: black">
+        </div>
+        {% endif %}
+
+        <!-- full_name -->
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="full_name" name="full_name" value="{{ user.full_name }}"
+                style="background-color: #f8f9fa; color: darkblue;">
+        </div>
+
+        <!-- Address -->
+        <div class="mb-3">
+            <label for="address" class="form-label">Address (UK only)</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ user.address }}"
+                style="background-color: #f8f9fa; color: darkblue;">
+        </div>
+
+        <!-- Mobile -->
+        <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile (UK +44 only) </label>
+            <input type="text" class="form-control" id="mobile" name="mobile" value="{{ user.mobile }}"
+                style="background-color: #f8f9fa; color: darkblue;">
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}"
+                style="background-color: #f8f9fa; color: darkblue;">
+        </div>
+
+        <hr>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label for="password" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                placeholder="Confirm new password" required>
+        </div>
+
+        
+
+
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

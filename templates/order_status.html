@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Order Status
+{% endblock %}
+
+{% block main %}
+
+
+<div class="banner_order">
+    <h3 style="color: #2a4d69;">Thanks for Your Order</h3>
+    <ul style="list-style-type: disc; padding-left: 20px;">
+        <li>Once the order is submitted, please deposit payment in full within the next working days to the following bank account: 
+            <strong>Lloyd Bank</strong>, Sort Code: <strong>40-11-11</strong> | Account Number: <strong>1234567</strong>.
+        </li>
+        <li>Please quote your <strong>Order Reference Number</strong> in your bank transaction reference.</li>
+        <li>Our Customer Services Representative from <strong>GatoHKG</strong> will contact you via phone to confirm your order and update delivery detail.</li>
+        <li>Expect delivery in <strong>2-3 days</strong>. You can check the order status via <strong>Menu &rarr; Order Status</strong>.</li>
+        <li>For any questions, please contact us for further inquiries.</li>
+    </ul>
+</div>
+
+
+<div class="container mt-5">
+    <h2 class="text-center">Order Status Report</h2>
+
+    <!-- Table for Saved Orders -->
+    <h3>Saved Orders</h3>
+    {% if saved_orders %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Select</th>
+                    <th>Order Ref.</th>
+                    <th>Full Name</th>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Total Cost (£)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in saved_orders %}
+                <tr>
+                    <td>
+                        <!-- Checkbox for Bulk Submit -->
+                        <input type="checkbox" name="selected_items" form="bulk-submit-form" value="{{ order.id }}">
+                    </td>
+                    <td>{{ order.order_number or "N/A" }}</td>
+                    <td>{{ order.full_name }}</td>
+                    <td>{{ order.pd_code }}</td>
+                    <td>{{ order.pd_name }}</td>
+                    <td>{{ order.order_quantity }}</td>
+                    <td>{{ order.order_costs | gbp }}</td>
+                    <td>
+                        <!-- Cancel Form -->
+                        <form action="/cancel_order/{{ order.id }}" method="POST" style="display: inline;">
+                            <input type="hidden" name="action" value="cancel">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6"><strong>Total Cost</strong></td>
+                    <td colspan="2">{{ saved_orders | sum(attribute='order_costs') | gbp }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="text-end">
+        <!-- Bulk Submit Form -->
+        <form action="/submit_saved_orders" method="POST" id="bulk-submit-form">
+            <input type="hidden" name="action" value="submit">
+            <button type="submit" class="btn btn-primary">Submit Selected Items</button>
+        </form>
+    </div>
+    {% else %}
+    <p>No saved orders found.</p>
+    {% endif %}
+
+    <!-- Table for Submitted and Pending Orders -->
+    <hr>
+    <h3>Submitted and Payment in Pending</h3>
+    {% if pending_orders %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order Ref.</th>
+                    <th>Full Name</th>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Total Cost (£)</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in pending_orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.full_name }}</td>
+                    <td>{{ order.pd_code }}</td>
+                    <td>{{ order.pd_name }}</td>
+                    <td>{{ order.order_quantity }}</td>
+                    <td>{{ order.order_costs | gbp }}</td>
+                    <td>{{ order.order_payment }}</td>
+                    <td>{{ order.order_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5"><strong>Total Cost</strong></td>
+                    <td colspan="3">{{ pending_orders | sum(attribute='order_costs') | gbp }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% else %}
+    <p>No submitted and pending orders found.</p>
+    {% endif %}
+
+    <!-- Table for Other Orders -->
+    <hr>
+    <h3>Other Orders</h3>
+    {% if other_orders %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order Ref.</th>
+                    <th>Full Name</th>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Total Cost (£)</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in other_orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.full_name }}</td>
+                    <td>{{ order.pd_code }}</td>
+                    <td>{{ order.pd_name }}</td>
+                    <td>{{ order.order_quantity }}</td>
+                    <td>{{ order.order_costs | gbp }}</td>
+                    <td>{{ order.order_payment }}</td>
+                    <td>{{ order.order_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5"><strong>Total Cost</strong></td>
+                    <td colspan="3">{{ other_orders | sum(attribute='order_costs') | gbp }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% else %}
+    <p>No other orders found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

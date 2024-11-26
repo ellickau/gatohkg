@@ -1,0 +1,210 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Dashboard
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center">Admin Dashboard</h2>
+
+    <!-- Saved Orders -->
+    <h3>Saved Orders</h3>
+    <form method="POST" action="/dashboard/cancel_saved">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr style="text-align: center;">
+                    <th>Select</th>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Full Name</th>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Costs</th>
+                    <th>Order Date</th>
+                    <th>Holding</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in saved_orders %}
+                <tr style="text-align: center;">
+                    <td><input type="radio" name="selected_orders" value="{{ order.id }}"></td>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user_id }}</td>
+                    <td>{{ order.full_name }}</td>
+                    <td>{{ order.pd_code }}</td>
+                    <td>{{ order.pd_name }}</td>
+                    <td>{{ order.order_quantity }}</td>
+                    <td>{{ order.order_costs | gbp }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.day_holding | round_to_half }}</td>
+                    <td><button type="submit" name="action" value="cancel" class="btn btn-danger btn-sm">Cancel</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Submitted & Pending Payment Orders -->
+    <h3>Submitted & Pending Payment Orders</h3>
+    <form method="POST" action="/dashboard/manage_submitted">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr style="text-align: center;">
+                    <th>Select</th>
+                    <th>Order Number</th>
+                    <th>User ID</th>
+                    <th>Full Name</th>
+                    <th>Ttl Qty</th>
+                    <th>Ttl Costs</th>
+                    <th>Payment</th>
+                    <th>Order Status</th>
+                    <th>Admin</th>
+                    <th>Holding</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in submitted_orders %}
+                <tr style="text-align: center;">
+                    <td><input type="radio" name="selected_orders" value="{{ order.order_number }}"></td>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.user_id }}</td>
+                    <td>{{ order.full_name }}</td>
+                    <td>{{ order.total_qty }}</td>
+                    <td>{{ order.total_costs | gbp }}</td>
+                    <td>{{ order.order_payment }}</td>
+                    <td>{{ order.order_status }}</td>
+                    <td>{{ order.admin_action }}</td>
+                    <td>{{ order.day_holding | round_to_half }}</td>
+                    <td>
+                        <button type="submit" name="action" value="edit" class="btn btn-primary btn-sm">Edit</button>
+                        <button type="submit" name="action" value="cancel" class="btn btn-danger btn-sm">Cancel</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+
+    <!-- In Preparation Orders -->
+    <h3>In Preparation Orders</h3>
+    <form method="POST" action="/dashboard/manage_in_preparation">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr style="text-align: center;">
+                    <th>Select</th>
+                    <th>Order Number</th>
+                    <th>User ID</th>
+                    <th>Total Quantity</th>
+                    <th>Total Costs</th>
+                    <th>Payment Status</th>
+                    <th>Order Status</th>
+                    <th>Admin</th>
+                    <th>Holding</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in in_preparation_orders %}
+                <tr style="text-align: center;">
+                    <td><input type="radio" name="selected_orders" value="{{ order.order_number }}"></td>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.user_id }}</td>
+                    <td>{{ order.total_qty }}</td>
+                    <td>{{ order.total_costs | gbp }}</td>
+                    <td>{{ order.order_payment }}</td>
+                    <td>{{ order.order_status }}</td>
+                    <td>{{ order.admin_action }}</td>
+                    <td>{{ order.day_holding | round_to_half }}</td>
+                    <td>
+                        <button type="submit" name="action" value="edit" class="btn btn-primary btn-sm">Edit</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Delivered Orders -->
+    <h3>Delivered Orders</h3>
+    <form method="POST" action="/dashboard/view_delivered">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr style="text-align: center;">
+                    <th>Select</th>
+                    <th>Order Number</th>
+                    <th>User ID</th>
+                    <th>Total Quantity</th>
+                    <th>Total Costs</th>
+                    <th>Payment</th>
+                    <th>Order Status</th>
+                    <th>Admin</th>
+                    <th>Delivered At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in view_delivered %}
+                <tr style="text-align: center;">
+                    <td>
+                        <input type="radio" name="selected_orders" value="{{ order.order_number }}">
+                    </td>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.user_id }}</td>
+                    <td>{{ order.total_qty }}</td>
+                    <td>{{ order.total_costs | gbp }}</td>
+                    <td>{{ order.order_payment }}</td>
+                    <td>{{ order.order_status }}</td>
+                    <td>{{ order.admin_action }}</td>
+                    <td>{{ order.updated_at }}</td>
+                    <td>
+                        <button type="submit" class="btn btn-info btn-sm">View</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    
+
+    <!-- Cancelled Orders -->
+    <h3>Cancelled Orders</h3>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr style="text-align: center;">
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Order No</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Qty</th>
+                <th>Costs</th>
+                <th>Payment</th>
+                <th>Order Status</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in cancelled_orders %}
+            <tr style="text-align: center;">
+                <td>{{ order.id }}</td>
+                <td>{{ order.user_id }}</td>
+                <td>{{ order.full_name }}</td>
+                <td>{{ order.order_number }}</td>
+                <td>{{ order.pd_code }}</td>
+                <td>{{ order.pd_name }}</td>
+                <td>{{ order.order_quantity }}</td>
+                <td>{{ order.order_costs | gbp }}</td>
+                <td>{{ order.order_payment }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.order_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Product
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center">Add New Product</h2>
+    <div class="row">
+        <form action="/admin_add_product" method="POST">
+            <!-- Product Name -->
+            <div class="mb-3">
+                <label for="pd_name" class="form-label">Product Name</label>
+                <input type="text" id="pd_name" name="pd_name" class="form-control" required>
+            </div>
+
+            <!-- Product Code -->
+            <div class="mb-3">
+                <label for="pd_code" class="form-label">Product Code</label>
+                <input type="text" id="pd_code" name="pd_code" class="form-control" placeholder="product-001" required>
+            </div>
+
+            <!-- Product Picture -->
+            <div class="mb-3">
+                <label for="pd_picture" class="form-label">Product Picture PATH (360 x 300 pixel)</label>
+                <input type="text" id="pd_picture" name="pd_picture" class="form-control"
+                    placeholder="img/picture-001.jpg" required>
+            </div>
+
+            <!-- Product Price -->
+            <div class="mb-3">
+                <label for="pd_price" class="form-label">Price (£)</label>
+                <input type="number" step="0.01" id="pd_price" name="pd_price" class="form-control" required>
+            </div>
+
+            <!-- Product Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Product Status -->
+            <div class="mb-3">
+                <label for="pd_status" class="form-label">Status</label>
+                <select id="pd_status" name="pd_status" class="form-control">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            <!-- Form Buttons -->
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success">Add Product</button>
+                <a href="/admin_products" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

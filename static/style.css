@@ -1,0 +1,120 @@
+body {  
+    background-color: papayawhip;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    justify-content: center;
+}
+
+.top-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030; /* Ensure it stays above other elements */
+}
+
+.contact-link {
+    color: white; /* Default color */
+    text-decoration: none; /* Remove underline, optional */
+    padding: 5px 10px;
+    display: inline-block;
+}
+
+.contact-link:hover,
+.contact-link:active,
+.contact-link:focus {
+    color: white; /* Ensure the color stays white on hover, active, and focus */
+    text-decoration: underline; /* Optional: Add underline on hover for better UX */
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1030; /* Ensure it stays above other elements */
+}
+
+.gato-ico {
+    width:8%;
+    margin-right: 10px;
+    align-self: flex-start; /* Ensures the logo aligns at the top */
+}
+
+.gato-logo {
+    width: 10%;
+    display: inline-block;
+    border: red;
+}
+
+.gato-text {
+    display: inline-block;  
+    margin-right: 10px;
+}
+
+.login-format, .register-format, .profile-format {
+    width: 700px;
+    align-self: center;
+}
+
+/* Navbar hover and active styles */
+.navbar-nav .nav-item .nav-link:hover,
+.navbar-nav .nav-item .nav-link:focus,
+.navbar-nav .nav-item .nav-link:active {
+    background-color: #28a745; /* Bootstrap's green */
+    color: white; /* Ensure text remains visible */
+    border-radius: 5px; /* Optional: Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+
+.order-container {
+    border: 2px solid lightcoral;
+    text-align: left;
+    width: 100%;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+
+table.table {
+    background-color: white;
+    border-collapse: collapse;
+}
+
+
+.table td.status-col {
+    background-color: #f8f9fa; /* Light gray or any color you choose */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Background color for the entire table */
+table.table {
+    background-color: white; /* Ensure this color is applied */
+    border-collapse: collapse;
+}
+
+/* Styling for the Status column */
+.table td.status-col {
+    background-color: #f8f9fa; /* Replace with your desired color */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Specific styles for different statuses */
+.table td.status-col.cancelled {
+    background-color: #f5c6cb; /* Light red for cancelled status */
+    color: #721c24; /* Dark red text */
+}
+
+.table td.status-col.submitted {
+    background-color: #c3e6cb; /* Light green for submitted status */
+    color: #155724; /* Dark green text */
+}
+
+.banner_order {
+    
+    border: 3px solid darkblue;
+    padding:  15px; 
+    margin-bottom: 20px;
+    
+}

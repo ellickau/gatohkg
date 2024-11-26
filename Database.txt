@@ -1,0 +1,147 @@
+
+** Table users.db
+
+CREATE TABLE users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    hash TEXT NOT NULL,
+    full_name TEXT NOT NULL,
+    address TEXT NOT NULL,
+    mobile TEXT NOT NULL,
+    email TEXT NOT NULL,
+    authority TEXT NOT NULL DEFAULT 'user'
+, user_status TEXT Default 'active');
+CREATE UNIQUE INDEX username_index ON users (username);
+
+remarks: user_status: "active", "inactive"
+authority: "user",  "admin"
+
+
+** table products.db
+
+CREATE TABLE products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pd_name TEXT NOT NULL,
+    pd_code TEXT NOT NULL UNIQUE, 
+    pd_price REAL NOT NULL,
+    pd_picture TEXT NOT NULL,
+    description TEXT
+    pd_status TEXT NOT NULL DEFAULT "active"
+);
+
+
+1|Scones|scone-001|2.0|img/scone-001.jpg|a brand new scone product
+2|Muffins|muffin-001|2.0|img/muffin-001.jpg|a brand new muffin product
+3|Swiss Rolls|swissroll-001|2.0|img/swiss-roll-001.jpg|a brand new swiss roll product
+4|Egg Tarts|eggtart-001|2.0|img/egg-tart-003.jpg|a brand new egg tart product
+5|Turnip Cakes|turnipcake-001|2.0|img/turnip-cake-001.jpg|a brand new turnip cake product
+6|Rice Pudding Cakes|ricepudding-001|2.0|img/rice-pudding-001.jpg|a brand new red bean pudding product
+7|Transport|transport-001|5.0|.|GBP5 per order within Manchester
+
+
+
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    pd_code TEXT NOT NULL,
+    order_quantity INTEGER NOT NULL,
+    order_costs REAL NOT NULL,
+    order_status TEXT DEFAULT 'saved',
+    order_payment TEXT DEFAULT 'pending',
+    order_number TEXT,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+remarks: 
+order_status: "saved", "submitted", "cancelled", "in preparation", "delivered"
+order_payment: "pending", "paid" 
+
+
+Here is the proposed structure for the delivery_details table based on your requirements:
+
+delivery_details Table Structure
+
+CREATE TABLE delivery_details (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,          -- Auto-increment unique identifier
+    order_number TEXT NOT NULL UNIQUE,             -- Linked to orders.order_number, must be unique and non-editable
+    delivery_address TEXT NOT NULL,                -- Default from users.address, editable by admin
+    delivery_mobile TEXT NOT NULL,                 -- Default from users.mobile, editable by admin
+    full_name TEXT NOT NULL,                       -- Default from users.full_name, editable by admin
+    email TEXT NOT NULL,                           -- Default from users.email, non-editable
+    order_status TEXT NOT NULL,                    -- From orders.order_status, non-editable
+    admin_action TEXT NOT NULL DEFAULT 'verify',   -- Default admin action, editable ('verify', 'validated', 'closed')
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Automatically updated when a record is modified
+);
+
+
+
+pwd 123
+oliver333 / inactive
+ellickau / admin
+annyip / user
+
+common command:
+UPDATE orders SET order_payment = "pending", order_status="saved", order_number = NULL  where id = 37;
+
+
+
+delivery_details Table Structure
+sql
+Copy code
+CREATE TABLE delivery_details (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,          -- Auto-increment unique identifier
+    order_number TEXT NOT NULL UNIQUE,             -- Linked to orders.order_number, must be unique and non-editable
+    delivery_address TEXT NOT NULL,                -- Default from users.address, editable by admin
+    delivery_mobile TEXT NOT NULL,                 -- Default from users.mobile, editable by admin
+    full_name TEXT NOT NULL,                       -- Default from users.full_name, editable by admin
+    email TEXT NOT NULL,                           -- Default from users.email, non-editable
+    order_status TEXT NOT NULL,                    -- From orders.order_status, non-editable
+    admin_action TEXT NOT NULL DEFAULT 'verify',   -- Default admin action, editable ('verify', 'validated', 'closed')
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Automatically updated when a record is modified
+);
+
+
+
+Maintainanually insert missing record to delivery_details.
+
+INSERT INTO delivery_details (order_number, delivery_address, delivery_mobile, full_name, email, order_status)
+SELECT 
+    orders.order_number,
+    users.address AS delivery_address,
+    users.mobile AS delivery_mobile,
+    users.full_name,
+    users.email,
+    orders.order_status
+FROM orders
+JOIN users ON orders.user_id = users.user_id
+WHERE orders.order_status = 'submitted'
+  AND NOT EXISTS (
+      SELECT 1 
+      FROM delivery_details 
+      WHERE delivery_details.order_number = orders.order_number
+  )
+GROUP BY orders.order_number;
+
+
+
+
+restore backup
+
+ cp backup/app_backup7.py app.py
+ cp backup/dashboard_edit_order_backup.html templates/dashboard_edit_order.html
+ cp backup/gatohkg_backup2.db gatohkg.db
+
+
+
+ 1|johnlee|John Lee
+2|ellickau|Ellick Au
+3|annyip|Ann Yip
+4|john123|John Doe
+5|jane456|Jane Smith
+7|alice321|Alice Walker
+8|emily654|Emily Clarke
+9|mark987|Mark Taylor
+10|lucas111|Lucas Brown
+11|sophie222|Sophie Davis
+12|oliver333|Oliver Wilson
+13|mia444|Mia Moore

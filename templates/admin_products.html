@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Products
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center">Products Management</h2>
+    <form action="/admin_products" method="POST">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Select</th>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Product Code</th>
+                    <th>Price (£)</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <input type="radio" name="selected_product" value="{{ product.id }}">
+                    </td>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.pd_name }}</td>
+                    <td>{{ product.pd_code }}</td>
+                    <td>{{ product.pd_price | gbp }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.pd_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+            <button type="submit" name="action" value="edit" class="btn btn-danger">Edit Selected Product</button>
+            <button type="submit" name="action" value="add" class="btn btn-success">Add New Product</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
