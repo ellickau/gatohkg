@@ -1,8 +1,8 @@
-cs50
-Flask
-Flask-Session
-pytz
-requests
-re
-werkzeug.security
-os
+cs50==9.4.0
+Flask==3.1.0
+Flask-Session==0.8.0
+Jinja2==3.1.4
+regex==2024.11.6
+requests==2.32.3
+SQLAlchemy==2.0.36
+Werkzeug==2.3.7
