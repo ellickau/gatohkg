@@ -2,6 +2,8 @@
 
 #### Video Demo:  [https://youtu.be/p8SzQ5AWWxw]
 
+#### Demon site [https://ellickau.pythonanywhere.com/]
+
 #### Description:
 
 **GatoHKG Order Management System** is a web application tailored for a small-to-medium-sized bakery and pastry sho, named GatoHKG. The system facilitates user registration, login, order placement, order tracking, and administrative management. Built with Flask and SQLite, it employs web technologies such as HTML5, CSS3, and Bootstrap 5, offering a scalable and user-friendly solution for streamlined business operations.
