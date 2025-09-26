@@ -1,0 +1,14 @@
+{
+  "name": "gatohkg Codespace",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "forwardPorts": [5000],
+  "postStartCommand": "./start.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": []
+    }
+  },
+  "workspaceFolder": "/workspaces/gatohkg"
+}
